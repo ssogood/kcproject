@@ -27,10 +27,10 @@ public class IngredientInfo {
 	}
 	@Override
 	public String toString() {
-		return "{\"ingred_no\":" + ingred_no + ", \"ingred_name\":" + ingred_name + ", \"bonsa_receiving_price\":"
+		return "{\"ingred_no\":" + ingred_no + ", \"ingred_name\":\"" + ingred_name + "\", \"bonsa_receiving_price\":"
 				+ bonsa_receiving_price + ", \"commission\":" + commission + ", \"bonsa_forwarding_price\":"
-				+ bonsa_forwarding_price + ", \"ingredCate\":" + ingredCate + ", \"quantity\":" + quantity + ", \"measurement\":"
-				+ measurement + "}";
+				+ bonsa_forwarding_price + ", \"ingredCate\":" + ingredCate + ", \"quantity\":" + quantity + ", \"measurement\":\""
+				+ measurement + "\"}";
 	}
 	@Override
 	public int hashCode() {
@@ -100,6 +100,7 @@ public class IngredientInfo {
 	public void setMeasurement(String measurement) {
 		this.measurement = measurement;
 	}
+	
 
 	
 }
