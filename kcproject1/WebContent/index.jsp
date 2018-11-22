@@ -28,7 +28,7 @@ $(init);
 </script>
 </head>
 <body>
-시작이다
+시작이다 
 
 <section>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
