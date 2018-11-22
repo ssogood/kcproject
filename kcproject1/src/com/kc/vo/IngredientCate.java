@@ -1,5 +1,5 @@
 package com.kc.vo;
-
+   
 public class IngredientCate {
 	private int ingred_cate_no;
 	private String ingred_cate_name;
@@ -13,7 +13,7 @@ public class IngredientCate {
 	}
 	@Override
 	public String toString() {
-		return "{\"ingred_cate_no\":" + ingred_cate_no + ", \"ingred_cate_name\":" + ingred_cate_name + "}";
+		return "{\"ingred_cate_no\":" + ingred_cate_no + ", \"ingred_cate_name\":\"" + ingred_cate_name + "\"}";
 	}
 	@Override
 	public int hashCode() {
