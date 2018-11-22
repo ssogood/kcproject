@@ -5,22 +5,26 @@ public class RestockingLine {
 	private IngredientInfo ingredient;
 	private String rsl_prod_state_flag;
 	private int restocking_quantity;
+	private String dc_flag;
 	public RestockingLine() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public RestockingLine(int restocking_no, IngredientInfo ingredient, String rsl_prod_state_flag,
-			int restocking_quantity) {
+			int restocking_quantity,String dc_flag) {
 		super();
 		this.restocking_no = restocking_no;
 		this.ingredient = ingredient;
 		this.rsl_prod_state_flag = rsl_prod_state_flag;
 		this.restocking_quantity = restocking_quantity;
+		this.dc_flag = dc_flag;
 	}
 	@Override
 	public String toString() {
 		return "{\"restocking_no\":" + restocking_no + ", \"ingredient\":" + ingredient
-				+ ", \"rsl_prod_state_flag\":" + rsl_prod_state_flag + ", \"restocking_quantity\":" + restocking_quantity + "}";
+				+ ", \"rsl_prod_state_flag\":" + "\""+rsl_prod_state_flag+"\"" 
+				+ ", \"restocking_quantity\":" + restocking_quantity 
+				+ ", \"dc_flag\":"+"\""+ dc_flag +"\""+ "}";
 	}
 	@Override
 	public int hashCode() {
@@ -77,6 +81,12 @@ public class RestockingLine {
 	}
 	public void setRestocking_quantity(int restocking_quantity) {
 		this.restocking_quantity = restocking_quantity;
+	}
+	public String getDc_flag() {
+		return dc_flag;
+	}
+	public void setDc_flag(String dc_flag) {
+		this.dc_flag = dc_flag;
 	}
 	
 	
