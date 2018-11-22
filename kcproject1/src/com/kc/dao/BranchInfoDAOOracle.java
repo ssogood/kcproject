@@ -15,7 +15,7 @@ import com.kc.vo.BranchInfo;
 import com.kc.vo.IngredientInfo;
 
 @Repository("branchDAO")
-public class BranchDAOOracle implements BranchDAO {
+public class BranchInfoDAOOracle implements BranchInfoDAO {
 
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
