@@ -29,7 +29,7 @@ $(init);
 </head>
 <body>
 시작이다
-
+은지입니다!
 <section>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <ui>
