@@ -1,0 +1,53 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StatsMapper">
+<resultMap type="Stats" id="statsMap" autoMapping="true" />
+	
+
+<select id="selectAllBranchsStats"  parameterType="hashmap" resultMap="statsMap">
+SELECT 
+    u."branch_code"
+    ,to_char(u.order_date, ${tocharDate}) as "order_date"
+    ,pc.prod_cate_name 
+    ,p.prod_name 
+    
+    ,SUM(u.order_quantity * p.prod_price) as "prod_sum" 
+    ,count(p.prod_name ) as "count"
+    
+FROM
+    (           
+            <foreach item="item" collection="branch_code_list" index="index" separator="UNION" >
+       			
+       			SELECT        
+		              TO_CHAR('${item}') AS "branch_code",
+		              order_flag,
+		               bcol.*
+	            FROM ${item}_ORDER_INFO oi
+		              JOIN 
+		             (
+		                SELECT
+		                       *
+		                FROM
+		                        ${item}_ORDER_LINE 
+		            ) bcol ON (oi.order_no = bcol.order_no AND oi.order_date=bcol.order_date)        
+	            WHERE order_flag = 2  
+       			
+    		</foreach>   
+    		
+    )u JOIN PRODUCT p ON p.prod_no = u.prod_no
+                JOIN PROD_CATEGORY pc ON p.prod_cate_no = pc.prod_cate_no
+                
+WHERE u.order_date LIKE #{period}
+      
+	
+        and u.order_flag = 2 
+GROUP BY CUBE( u."branch_code" , to_char(u.order_date, ${tocharDate})   ,pc.prod_cate_name, p.prod_name)    
+
+ORDER BY 1
+
+
+</select>
+
+
+</mapper>

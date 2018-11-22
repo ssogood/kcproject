@@ -1,0 +1,55 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RestockingMapper">
+<resultMap type="RestockingInfo" id="restockinginfoMap" autoMapping="true">
+	<id property="restocking_no" column="restocking_no"/>
+	<association property="branch" resultMap="BranchInfoMapper.branchinfoMap"></association>
+	<collection property="restocking_lines" ofType="RestockingLine" autoMapping="true">
+		<association property="ingredient" resultMap="IngredientMapper.ingredientinfoMap"></association>
+	</collection>
+</resultMap>
+<resultMap type="RestockingLine" id="restockinglineMap" autoMapping="true">
+	<id property="restocking_no" column="restocking_no"/>
+</resultMap>
+
+
+
+
+<select id="selectAll" resultMap="restockinginfoMap">
+		SELECT info.restocking_no,restocking_date, info.branch_code,branch_name, return_no 
+			,line.ingred_no,ingred_name, ing_info.ingred_cate_no, ingred_cate_name
+			,rsl_prod_state_flag,restocking_quantity
+			FROM RESTOCKING_INFO info
+			JOIN restocking_line line ON info.restocking_no = line.restocking_no
+			JOIN INGREDIENT_INFO ing_info ON line.INGRED_NO = ing_info.INGRED_NO
+			JOIN INGREDIENT_CATE cate ON ing_info.ingred_cate_no = cate.INGRED_CATE_NO
+			JOIN branch_info br_info ON info.BRANCH_CODE = br_info.BRANCH_CODE
+			ORDER BY info.restocking_no desc, line.ingred_no
+</select>
+
+<select id="selectByProdFlag" parameterType="_int" resultMap="restockinginfoMap">
+	SELECT info.restocking_no,restocking_date, info.branch_code,branch_name, return_no 
+		,line.ingred_no,ingred_name, ing_info.ingred_cate_no, ingred_cate_name
+		,rsl_prod_state_flag,restocking_quantity
+		FROM RESTOCKING_INFO info
+		JOIN restocking_line line ON info.restocking_no = line.restocking_no
+		JOIN INGREDIENT_INFO ing_info ON line.INGRED_NO = ing_info.INGRED_NO
+		JOIN INGREDIENT_CATE cate ON ing_info.ingred_cate_no = cate.INGRED_CATE_NO
+		JOIN branch_info br_info ON info.BRANCH_CODE = br_info.BRANCH_CODE
+		WHERE rsl_prod_state_flag=#{rsl_prod_state_flag}
+		ORDER BY info.restocking_no desc, line.ingred_no
+
+</select>
+<insert id="insertInfo" parameterType="RestockingInfo">
+INSERT INTO restocking_info(restocking_no,restocking_date,branch_code,return_no) 
+VALUES(restocking_seq.NEXTVAL, SYSDATE,#{branch.branch_code},#{return_no})
+</insert>
+
+<insert id="insertLine" parameterType="RestockingLine">
+INSERT INTO restocking_line(restocking_no, ingred_no,restocking_quantity,rsl_prod_state_flag)
+VALUES(restocking_seq.CURRVAL, #{ingredient.ingred_no}, #{restocking_quantity}, #{rsl_prod_state_flag})
+</insert>
+
+
+</mapper>

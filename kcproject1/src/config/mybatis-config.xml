@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+    <typeAlias type="com.kc.vo.Employees" alias="Employees"/>
+    <typeAlias type="com.kc.vo.BranchInfo" alias="BranchInfo"/>
+    <typeAlias type="com.kc.vo.ReturnInfo" alias="ReturnInfo"/>
+    <typeAlias type="com.kc.vo.ReturnLine" alias="ReturnLine"/>
+    <typeAlias type="com.kc.vo.RestockingInfo" alias="RestockingInfo"/>
+    <typeAlias type="com.kc.vo.RestockingLine" alias="RestockingLine"/>
+    <typeAlias type="com.kc.vo.Discard" alias="Discard"/>
+    <typeAlias type="com.kc.vo.IngredientInfo" alias="IngredientInfo"/>
+    <typeAlias type="com.kc.vo.IngredientCate" alias="IngredientCate"/>
+    <typeAlias type="com.kc.vo.Stats" alias="Stats"/>
+    
+  </typeAliases>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="kc"/>
+        <property name="password" value="kc"/>
+        <property name="poolMaximumActiveConnections" value="5"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="config/EmployeesMapper.xml"/>
+    <mapper resource="config/ReturnMapper.xml"/>
+    <mapper resource="config/IngredientMapper.xml"/>
+    <mapper resource="config/RestockingMapper.xml"/>
+    <mapper resource="config/DiscardMapper.xml"/>
+    <mapper resource="config/BranchInfoMapper.xml"/>
+    <mapper resource="config/StatsMapper.xml"/>
+  </mappers>
+</configuration>

@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReturnMapper">
+<resultMap type="ReturnInfo" id="returninfoMap" autoMapping="true">
+	<id property="return_no" column="return_no"/>
+	<collection property="return_lines" ofType="ReturnLine" autoMapping="true">
+		<association property="ingredient" resultMap="IngredientMapper.ingredientinfoMap"></association>
+	</collection>
+</resultMap>
+<resultMap type="ReturnLine" id="returnlineMap" autoMapping="true">
+	<id property="return_no" column="return_no"/>
+</resultMap>
+
+
+
+
+<select id="selectAll" parameterType="hashmap" resultMap="returninfoMap">
+	SELECT  info.return_no, return_date, return_state_flag,return_quantity,
+        line.ingred_no, ingred_name, ing_info.ingred_cate_no, ingred_cate_name ,rtl_prod_state_flag
+		from ${branch_code}_return_info info 
+		JOIN ${branch_code}_return_line line ON info.return_no = line.return_no
+		JOIN INGREDIENT_INFO ing_info ON ing_info.INGRED_NO = line.INGRED_NO
+		JOIN INGREDIENT_CATE cate ON cate.INGRED_CATE_NO = ing_info.INGRED_CATE_NO
+		ORDER BY info.return_no desc, line.ingred_no
+</select>
+
+<select id="selectRtnFlag" parameterType="hashmap" resultMap="returninfoMap">
+	SELECT  info.return_no, return_date, return_state_flag,return_quantity,
+	        line.ingred_no, ingred_name, ing_info.ingred_cate_no, ingred_cate_name ,rtl_prod_state_flag
+			from ${branch_code}_return_info info 
+			JOIN ${branch_code}_return_line line ON info.return_no = line.return_no
+			JOIN INGREDIENT_INFO ing_info ON ing_info.INGRED_NO = line.INGRED_NO
+			JOIN INGREDIENT_CATE cate ON cate.INGRED_CATE_NO = ing_info.INGRED_CATE_NO
+			WHERE return_state_flag = #{return_flag}
+			ORDER BY info.return_no desc, line.ingred_no
+
+</select>
+
+<update id="updateRtnFlag" parameterType="hashmap">
+	UPDATE ${branch_code}_return_info SET return_state_flag = #{return_state_flag} WHERE RETURN_NO= #{return_no}
+</update>
+
+<insert id="insertInfo" parameterType="string">
+INSERT INTO ${branch_code}_RETURN_INFO(return_no,return_date,return_state_flag) 
+VALUES(${branch_code}_RETURN_SEQ.NEXTVAL,SYSDATE,1)
+</insert>
+<insert id="insertLine" parameterType="hashmap">
+INSERT INTO ${branch_code}_RETURN_LINE(return_no,return_quantity,ingred_no,rtl_prod_state_flag) 
+VALUES(${branch_code}_RETURN_SEQ.CURRVAL,#{return_quantity},#{ingred_no},#{rtl_prod_state_flag})
+</insert>
+
+
+</mapper>
