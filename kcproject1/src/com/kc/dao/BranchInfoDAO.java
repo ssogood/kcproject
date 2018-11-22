@@ -8,5 +8,5 @@ public interface BranchInfoDAO {
 	
 	public List<BranchInfo> selectAll();
 	
-	
+	aa
 }
