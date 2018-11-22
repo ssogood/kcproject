@@ -35,6 +35,7 @@ $(init);
 <ui>
 	<li><a href="${contextPath}/return/returnlist.do">반품목록보기</a></li>
 	<li><a href="${pageContext.request.contextPath}/stats/all.do">통계</a></li>
+	<li><a href="${pageContext.request.contextPath}/stats/sbtest.do">통계2</a></li>
 </ui>
 </section>
 
