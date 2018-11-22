@@ -77,4 +77,14 @@ public class RestockingDAOOracle implements RestockingDAO {
 		}
 		
 	}
+	
+	public void updateFlagDc(RestockingLine line) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {	
+			sqlSession.update("RestockingMapper.updateFlagDc",line);
+			sqlSession.commit();
+		}finally {
+			sqlSession.close();
+		}
+	}
 }
