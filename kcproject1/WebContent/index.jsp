@@ -28,13 +28,11 @@ $(init);
 </script>
 </head>
 <body>
-<<<<<<< HEAD
-시작이다 
 
-=======
+
 시작이다
 은지입니다!
->>>>>>> branch 'master' of https://github.com/ssogood/kcproject.git
+
 <section>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <ui>
