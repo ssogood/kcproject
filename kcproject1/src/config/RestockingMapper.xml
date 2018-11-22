@@ -6,6 +6,7 @@
 	<id property="restocking_no" column="restocking_no"/>
 	<association property="branch" resultMap="BranchInfoMapper.branchinfoMap"></association>
 	<collection property="restocking_lines" ofType="RestockingLine" autoMapping="true">
+		
 		<association property="ingredient" resultMap="IngredientMapper.ingredientinfoMap"></association>
 	</collection>
 </resultMap>
@@ -19,7 +20,7 @@
 <select id="selectAll" resultMap="restockinginfoMap">
 		SELECT info.restocking_no,restocking_date, info.branch_code,branch_name, return_no 
 			,line.ingred_no,ingred_name, ing_info.ingred_cate_no, ingred_cate_name
-			,rsl_prod_state_flag,restocking_quantity
+			,rsl_prod_state_flag,restocking_quantity ,dc_flag
 			FROM RESTOCKING_INFO info
 			JOIN restocking_line line ON info.restocking_no = line.restocking_no
 			JOIN INGREDIENT_INFO ing_info ON line.INGRED_NO = ing_info.INGRED_NO
@@ -31,7 +32,7 @@
 <select id="selectByProdFlag" parameterType="_int" resultMap="restockinginfoMap">
 	SELECT info.restocking_no,restocking_date, info.branch_code,branch_name, return_no 
 		,line.ingred_no,ingred_name, ing_info.ingred_cate_no, ingred_cate_name
-		,rsl_prod_state_flag,restocking_quantity
+		,rsl_prod_state_flag,restocking_quantity,dc_flag
 		FROM RESTOCKING_INFO info
 		JOIN restocking_line line ON info.restocking_no = line.restocking_no
 		JOIN INGREDIENT_INFO ing_info ON line.INGRED_NO = ing_info.INGRED_NO
@@ -51,5 +52,9 @@ INSERT INTO restocking_line(restocking_no, ingred_no,restocking_quantity,rsl_pro
 VALUES(restocking_seq.CURRVAL, #{ingredient.ingred_no}, #{restocking_quantity}, #{rsl_prod_state_flag})
 </insert>
 
+<update id="updateFlagDc" parameterType="RestockingLine">
+UPDATE RESTOCKING_LINE SET DC_FLAG = 2 
+WHERE restocking_no= #{restocking_no} AND ingred_no = #{ingredient.ingred_no} AND RSL_PROD_STATE_FLAG =#{rsl_prod_state_flag}
+</update>
 
 </mapper>

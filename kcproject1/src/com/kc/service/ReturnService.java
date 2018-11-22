@@ -22,6 +22,10 @@ public class ReturnService {
 		return dao.selectRtnFlag(branch_code, return_flag);
 	}
 	
+	public ReturnInfo findRtnNo(String branch_code,int return_no){
+		return dao.selectRtnNo(branch_code, return_no);
+	}
+	
 	public void modifyRtnFlag(String branch_code,String newFlag, int return_no) {
 		dao.updateRtnFlag(branch_code, newFlag, return_no);
 	}

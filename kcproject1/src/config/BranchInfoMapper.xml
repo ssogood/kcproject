@@ -8,4 +8,10 @@
 <select id="selectAll" resultMap="branchinfoMap">
   SELECT * FROM branch_info
 </select>
+
+<select id="selectByCode" parameterType="string" resultMap="branchinfoMap">
+SELECT *
+FROM branch_info
+WHERE branch_code = UPPER(#{branch_code})
+</select>
 </mapper>
