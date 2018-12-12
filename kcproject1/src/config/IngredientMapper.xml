@@ -3,10 +3,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="IngredientMapper">
 <resultMap type="IngredientInfo" id="ingredientinfoMap" autoMapping="true">
+	<id property="ingred_no" column="ingred_no"/>
 	<association property="ingredCate" resultMap="ingredientcateMap"></association>
 </resultMap>
 <resultMap type="IngredientCate" id="ingredientcateMap" autoMapping="true">
 	<id property="ingred_cate_no" column="ingred_cate_no"/>
 </resultMap>
+
+<select id="selectAll" resultMap="ingredientinfoMap">
+SELECT ingred_no, ingred_name, bonsa_receiving_price, commission, branch_forwarding_price, info.ingred_cate_no, ingred_cate_name, quantity, measurement
+FROM ingredient_info info JOIN ingredient_cate cate ON info.ingred_cate_no = cate.ingred_cate_no
+ORDER BY ingred_no
+</select>
+
+<select id="selectByName" parameterType="string" resultMap="ingredientinfoMap">
+SELECT ingred_no, ingred_name, bonsa_receiving_price, commission, branch_forwarding_price, info.ingred_cate_no, ingred_cate_name, quantity, measurement
+FROM ingredient_info info JOIN ingredient_cate cate ON info.ingred_cate_no = cate.ingred_cate_no
+WHERE ingred_name LIKE #{ingred_name}
+ORDER BY ingred_no
+
+</select>
+
 
 </mapper>

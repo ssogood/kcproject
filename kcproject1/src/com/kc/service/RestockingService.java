@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kc.dao.RestockingDAO;
 import com.kc.vo.RestockingInfo;
+import com.kc.vo.RestockingLine;
 
 @Service
 public class RestockingService {
@@ -23,5 +24,9 @@ public class RestockingService {
 	
 	public void addRestocking(RestockingInfo info) {
 		dao.insertRst(info);
+	}
+	
+	public void modifyFalgDc(RestockingLine line) {
+		dao.updateFlagDc(line);
 	}
 }

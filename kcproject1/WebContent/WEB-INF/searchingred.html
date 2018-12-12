@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+function init(){
+	$.ajax({
+		url: "ingredient/ingalllist.do"
+		,success :function(result){
+			var jsonObj = JSON.parse(result);
+			var $ulObj = $("<ul>");
+			$("div").append($ulObj);
+			$(jsonObj.data).each(function(index,element){
+				var $liObj = $("<li>");
+				$liObj.attr("id", element.ingred_no);
+				var $spanObj = $("<span>");
+				$spanObj.attr('class','ingred_no');
+				$spanObj.append(element.ingred_no);
+				$liObj.append($spanObj);
+
+				$spanObj = $("<span>");
+				$spanObj.attr('class','ingred_name');
+				$spanObj.append(element.ingred_name);
+				$liObj.append($spanObj);
+
+				$ulObj.append($liObj);
+				
+				
+			});
+		}
+		
+	});
+	
+	$("div").on("click","ul>li",function(){
+		console.log("눌림");
+		var $openerObj = $(opener.document);
+		
+		var $ingredNo = $openerObj.find("input[name=ingred_no]");
+		$ingredNo.val(
+			$(this).children("span[class=ingred_no]").html()		
+		);
+		
+		var $ingredName = $openerObj.find("input[name=ingred_name]");
+		$ingredName.val(
+			$(this).children("span[class=ingred_name]").html()		
+		);
+		
+		self.close(); 
+		
+	});
+};
+
+$(init);
+</script>
+
+</head>
+<body>
+<div>
+</div>
+</body>
+</html>
