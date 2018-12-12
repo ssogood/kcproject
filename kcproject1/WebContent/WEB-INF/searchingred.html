@@ -4,36 +4,138 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+div{
+	overflow: scroll;
+}
+</style>
 <script>
 function init(){
-	$.ajax({
-		url: "ingredient/ingalllist.do"
-		,success :function(result){
-			var jsonObj = JSON.parse(result);
-			var $ulObj = $("<ul>");
-			$("div").append($ulObj);
-			$(jsonObj.data).each(function(index,element){
-				var $liObj = $("<li>");
-				$liObj.attr("id", element.ingred_no);
-				var $spanObj = $("<span>");
-				$spanObj.attr('class','ingred_no');
-				$spanObj.append(element.ingred_no);
-				$liObj.append($spanObj);
+	var ingred_name = $("input[name=ingred_name]", opener.document).val();
+	var ingred_no = $("input[name=ingred_no]",opener.document).val();
 
-				$spanObj = $("<span>");
-				$spanObj.attr('class','ingred_name');
-				$spanObj.append(element.ingred_name);
-				$liObj.append($spanObj);
+	if(ingred_name==""&&ingred_no==""){
+		//모두 null일때
+		$.ajax({
+			url: "ingredient/ingalllist.do"
+			,success :function(result){
+				var jsonObj = JSON.parse(result);
+				var $ulObj = $("<ul>");
+				$("#divResult").append($ulObj);
+				$(jsonObj.data).each(function(index,element){
+					var $liObj = $("<li>");
+					$liObj.attr("id", element.ingred_no);
+					var $spanObj = $("<span>");
+					$spanObj.attr('class','ingred_no');
+					$spanObj.append(element.ingred_no);
+					$liObj.append($spanObj);
 
-				$ulObj.append($liObj);
-				
-				
-			});
-		}
-		
-	});
+					$spanObj = $("<span>");
+					$spanObj.attr('class','ingred_name');
+					$spanObj.append(element.ingred_name);
+					$liObj.append($spanObj);
+
+					$ulObj.append($liObj);
+					
+					
+				});
+			}
+			
+		});
+	}else if(ingred_name==""&&!(ingred_no=="")){
+		//번호로 찾을때
+		$.ajax({
+			url: "ingredient/ingfindno.do"
+			,data:{"ingred_no":ingred_no}
+			,success :function(result){
+				var jsonObj = JSON.parse(result);
+				var $ulObj = $("<ul>");
+				$("#divResult").append($ulObj);
+				$(jsonObj.data).each(function(index,element){
+					var $liObj = $("<li>");
+					$liObj.attr("id", element.ingred_no);
+					var $spanObj = $("<span>");
+					$spanObj.attr('class','ingred_no');
+					$spanObj.append(element.ingred_no);
+					$liObj.append($spanObj);
+
+					$spanObj = $("<span>");
+					$spanObj.attr('class','ingred_name');
+					$spanObj.append(element.ingred_name);
+					$liObj.append($spanObj);
+
+					$ulObj.append($liObj);
+					
+					
+				});
+			}
+			
+		});
+	}else if(!(ingred_name=="")&&ingred_no==""){
+		//이름으로 찾을때
+		$.ajax({
+			url: "ingredient/ingfindname.do"
+			,data:{"ingred_name":ingred_name}
+			,success :function(result){
+				var jsonObj = JSON.parse(result);
+				var $ulObj = $("<ul>");
+				$("#divResult").append($ulObj);
+				$(jsonObj.data).each(function(index,element){
+					var $liObj = $("<li>");
+					$liObj.attr("id", element.ingred_no);
+					var $spanObj = $("<span>");
+					$spanObj.attr('class','ingred_no');
+					$spanObj.append(element.ingred_no);
+					$liObj.append($spanObj);
+
+					$spanObj = $("<span>");
+					$spanObj.attr('class','ingred_name');
+					$spanObj.append(element.ingred_name);
+					$liObj.append($spanObj);
+
+					$ulObj.append($liObj);
+					
+					
+				});
+			}
+			
+		});
+	}else{
+		//둘 다로 찾을때
+		$.ajax({
+			url: "ingredient/ingfindnoname.do"
+			,data:{"ingred_no":ingred_no,"ingred_name":ingred_name}
+			,success :function(result){
+				var jsonObj = JSON.parse(result);
+				var $ulObj = $("<ul>");
+				$("#divResult").append($ulObj);
+				$(jsonObj.data).each(function(index,element){
+					var $liObj = $("<li>");
+					$liObj.attr("id", element.ingred_no);
+					var $spanObj = $("<span>");
+					$spanObj.attr('class','ingred_no');
+					$spanObj.append(element.ingred_no);
+					$liObj.append($spanObj);
+
+					$spanObj = $("<span>");
+					$spanObj.attr('class','ingred_name');
+					$spanObj.append(element.ingred_name);
+					$liObj.append($spanObj);
+
+					$ulObj.append($liObj);
+					
+					
+				});
+			}
+			
+		});
+	}
 	
-	$("div").on("click","ul>li",function(){
+	
+	
+	
+	
+	$("#divResult").on("click","ul>li",function(){
 		console.log("눌림");
 		var $openerObj = $(opener.document);
 		
@@ -57,7 +159,8 @@ $(init);
 
 </head>
 <body>
-<div>
+<div id="divResult">
+
 </div>
 </body>
 </html>
