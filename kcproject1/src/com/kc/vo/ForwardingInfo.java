@@ -8,26 +8,28 @@ public class ForwardingInfo {
 	private Date forwarding_date;
 	private BranchInfo branch; //branch_no사용
 	private String forwarding_state_flag;
+	private int balju_no;
 	private List<ForwardingLine> forwardingLines;
+
 	public ForwardingInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 	public ForwardingInfo(int forwarding_no, Date forwarding_date, BranchInfo branch, String forwarding_state_flag,
-			List<ForwardingLine> forwardingLines) {
+			List<ForwardingLine> forwardingLines, int balju_no) {
 		super();
 		this.forwarding_no = forwarding_no;
 		this.forwarding_date = forwarding_date;
 		this.branch = branch;
 		this.forwarding_state_flag = forwarding_state_flag;
 		this.forwardingLines = forwardingLines;
+		this.balju_no = balju_no;
 	}
-
 	@Override
 	public String toString() {
 		return "{\"forwarding_no\":" + forwarding_no + ", \"forwarding_date\":" + forwarding_date + ", \"branch\":"
-				+ branch + ", \"forwarding_state_flag\":" + forwarding_state_flag + ", \"forwardingLines\":" + forwardingLines +"}";
+				+ branch + ", \"forwarding_state_flag\":" + forwarding_state_flag + ", \"forwardingLines\":" + forwardingLines +""
+				+ ", \"balju_no\":" + balju_no + "}";
 	}
 	@Override
 	public int hashCode() {
@@ -79,6 +81,14 @@ public class ForwardingInfo {
 	public void setForwardingLines(List<ForwardingLine> forwardingLines) {
 		this.forwardingLines = forwardingLines;
 	}
-	
-	
+
+	//추가
+	public int getBalju_no() {
+		return balju_no;
+	}
+	public void setBalju_no(int balju_no) {
+		this.balju_no = balju_no;
+	}
+
+
 }
