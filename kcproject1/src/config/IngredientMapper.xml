@@ -68,6 +68,12 @@ where ingred_name like '%'||#{ingred_name}||'%'
 order by 1
 </select>
 
+<select id="selectByNoEq" parameterType="_int" resultMap="ingredientinfoMap">
+select *
+from ingredient_info info join ingredient_cate cate on info.ingred_cate_no = cate.ingred_cate_no
+where ingred_no = #{ingred_no}
+order by 1
+</select>
 
 
 </mapper>
