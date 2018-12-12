@@ -188,7 +188,6 @@ $(init);
 					        	<li><a id="branch_baljuhistory" href="${pageContext.request.contextPath}/balju/baljulist.do"><span>발주내역</span></a></li>
 					            <li><a href="${pageContext.request.contextPath}/balju/baljuingrlist.do"><span>발주요청</span></a></li>
 					        	<li><a href="${pageContext.request.contextPath}/S0001baljureq.jsp"><span>발주요청2</span></a></li>
-					        
 					        </ul>
 					     </li>
 					     <li class="has-sub"><a href="#"><span><i class="fa fa-fw fa-share-square-o"></i> 반품</span></a>
