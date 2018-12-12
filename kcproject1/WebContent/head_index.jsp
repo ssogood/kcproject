@@ -123,7 +123,7 @@ $(init);
 					           <li><a href="#"><span>메뉴정보</span></a></li>
 					           <li><a href="#"><span>원자재 입고</span></a></li>
 					           <li><a href="#"><span>지점 출고</span></a></li>
-					           <li><a href="#"><span>반품요청처리</span></a></li>
+					           <li><a href="${pageContext.request.contextPath}/return/returnlist.do"><span>반품요청처리</span></a></li>
 					           <li><a href="#"><span>재입고</span></a></li>
 					           <li><a href="#"><span>폐기</span></a></li>
 					        </ul>
