@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,20 @@ crossorigin="anonymous">	<!-- layout css -->
 
 <script>
 function init(){
+	
+	if("${sessionScope.branchLoginInfo}"==""){
+		$('a').click(function(){
+			alert("로그인하세요");
+			$("button").each(function(index,element){
+				if($(element).attr("class").indexOf("login")>-1){
+					$(element).trigger("click");
+					return false;
+				}
+			});
+		});
+
+	}
+	
 	
 	$('#cssmenu > ul > li > a').click(function() {
 		
@@ -81,7 +96,41 @@ function init(){
 			});
 			
 		return false; //기본이벤트 막기, 이벤트전달 중지
+	});
+	
+	$(".has-not-sub a").click(function(){
+		//sub 메뉴들만 link 타도록
+		 // li가 눌린 경우
+		  var url = $(this).attr("href");			//this.href
+		  
+			console.log(url);
+			
+			$.ajax({
+				url : url
+				,success : function(result){ //result:응답결과
+					$("#maincol").html(result);
+				}
+			});
+			
+		return false; //기본이벤트 막기, 이벤트전달 중지
 	}); 
+	
+	$(".logout").click(function(){
+		$.ajax({
+			url : "branch/logout.do"
+			,success : function(result){ //result:응답결과
+				alert("로그아웃되었습니다");
+				location = "${pageContext.request.contextPath}/branchlogin.jsp"
+			}
+		});
+		return false;
+	});
+	
+	$(".login").click(function(){
+		console.log("login클릭");
+		location.href="${pageContext.request.contextPath}/branchlogin.jsp";
+		return false;
+	});
 	
 }
 
@@ -92,7 +141,7 @@ $(init);
 <body>
 <div id="pagewidth">
 	<header id="header">
-		<h2>매장용 메인 페이지</h2> 
+		<h2>Head</h2> 
 		
 	 </header>
 	 
@@ -100,13 +149,23 @@ $(init);
 		<section id="maincol">
 			<h1>Main Content Column</h1>
 			<h2>링크 누르면 jsp 표시 될 부분</h2>
-			${pageContext.request.contextPath}
 		 </section>
 	 
 		<div id="leftcol">
+		
+		<c:choose>
+		  <c:when test="${!empty sessionScope.branchLoginInfo}">
+		    <button class="logout">로그아웃</button>
+		  </c:when>
+		  <c:otherwise>
+		    <button class="login">로그인</button>
+		  </c:otherwise>
+		</c:choose>
+
 			 <h2>Left Column</h2>
-			 
-			 <div class="row preview-html" ng-show="screen == 'preview'" ng-hide="loading">
+	
+	
+	<div class="row preview-html" ng-show="screen == 'preview'" ng-hide="loading">
 		        <div class="col-md-12">
 			        <div id="cssmenu">
 					  <ul>
@@ -134,17 +193,20 @@ $(init);
 					     </li>
 					     <li class="has-sub"><a href="#"><span><i class="fa fa-fw fa-share-square-o"></i> 반품</span></a>
 					        <ul>
-					           <li><a href="#"><span>반품내역</span></a></li>
-					           <li><a href="#"><span>반품요청</span></a></li>
+					           <li><a href="${pageContext.request.contextPath}/return/returnlistbranch.do"><span>반품내역</span></a></li>
+					           <li><a href="${pageContext.request.contextPath}/return/returnadd.do"><span>반품요청</span></a></li>
 					        </ul>
 					     </li>
-					     <li><a href="#"><span><i class="fa fa-fw fa-bullhorn"></i> 공지사항</span></a></li>
-					     <li><a href="#"><span><i class="fa fa-fw fa-cog"></i> Settings</span></a></li>
-					     <li><a href="#"><span><i class="fa fa-fw fa-phone"></i> Contact</span></a></li>
+					     <li class="has-not-sub"><a href="${pageContext.request.contextPath}/notice/noticereadonly.do"><span><i class="fa fa-fw fa-bullhorn"></i> 공지사항</span></a></li>
+					     <li class="has-not-sub"><a href="#"><span><i class="fa fa-fw fa-cog"></i> Settings</span></a></li>
+					     <li class="has-not-sub"><a href="#"><span><i class="fa fa-fw fa-phone"></i> Contact</span></a></li>
 					</ul>
 			</div>
 		</div>
       </div>
+
+					 
+			 
 			
 			 
 	     </div>

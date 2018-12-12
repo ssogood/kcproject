@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,20 @@ crossorigin="anonymous">	<!-- layout css -->
 
 <script>
 function init(){
+	
+	if("${sessionScope.bonsaLoginInfo}"==""){
+		$('a').click(function(){
+			alert("로그인하세요");
+			$("button").each(function(index,element){
+				if($(element).attr("class").indexOf("login")>-1){
+					$(element).trigger("click");
+					return false;
+				}
+			});
+		});
+
+	}
+	
 	
 	$('#cssmenu > ul > li > a').click(function() {
 		
@@ -70,7 +85,7 @@ function init(){
 		//sub 메뉴들만 link 타도록
 		 // li가 눌린 경우
 		  var url = $(this).attr("href");			//this.href
-			
+		  
 			console.log(url);
 			
 			$.ajax({
@@ -82,6 +97,41 @@ function init(){
 			
 		return false; //기본이벤트 막기, 이벤트전달 중지
 	}); 
+	
+	$(".has-not-sub a").click(function(){
+		//sub 메뉴들만 link 타도록
+		 // li가 눌린 경우
+		  var url = $(this).attr("href");			//this.href
+		  
+			console.log(url);
+			
+			$.ajax({
+				url : url
+				,success : function(result){ //result:응답결과
+					$("#maincol").html(result);
+				}
+			});
+			
+		return false; //기본이벤트 막기, 이벤트전달 중지
+	}); 
+	
+	$(".logout").click(function(){
+		$.ajax({
+			url : "employees/logout.do"
+			,success : function(result){ //result:응답결과
+				alert("로그아웃되었습니다");
+				location = "${pageContext.request.contextPath}/headlogin.jsp"
+			}
+		});
+		return false;
+	});
+	
+	$(".login").click(function(){
+		console.log("login클릭");
+		location.href="${pageContext.request.contextPath}/headlogin.jsp";
+		return false;
+	});
+	
 	
 }
 
@@ -103,6 +153,16 @@ $(init);
 		 </section>
 	 
 		<div id="leftcol">
+		
+		<c:choose>
+		  <c:when test="${!empty sessionScope.bonsaLoginInfo}">
+		    <button class="logout">로그아웃</button>
+		  </c:when>
+		  <c:otherwise>
+		    <button class="login">로그인</button>
+		  </c:otherwise>
+		</c:choose>
+		
 			 <h2>Left Column</h2>
 			 
 			 <div class="row preview-html" ng-show="screen == 'preview'" ng-hide="loading">
@@ -121,17 +181,19 @@ $(init);
 					        <ul>
 					           <li><a href="#"><span>매장정보</span></a></li>
 					           <li><a href="#"><span>메뉴정보</span></a></li>
-					           <li><a href="#"><span>원자재 입고</span></a></li>					           					           
+					           <li><a href="#"><span>원자재 입고</span></a></li>
 					           <li><a id="headsidemenubaljulist" href="${contextPath}/forwarding/baljugrandlist.do"><span>출고하기(처리할지점발주리스트)</span></a></li>
 					           <li><a href="${contextPath}/forwarding/forwardinglist.do"><span>출고내역</span></a></li>
-					           <li><a href="${pageContext.request.contextPath}/return/returnlist.do"><span>반품요청처리</span></a></li>
-					           <li><a href="#"><span>재입고</span></a></li>
-					           <li><a href="#"><span>폐기</span></a></li>
+					           <li><a href="${pageContext.request.contextPath}/return/returnalllist.do"><span>반품요청처리</span></a></li>
+					           <li><a href="${pageContext.request.contextPath}/restocking/restockinglist.do"><span>재입고</span></a></li>
+					           <li><a href="${pageContext.request.contextPath}/discard/discardlist.do"><span>폐기</span></a></li>
 					        </ul>
-					     </li>					     
-					     <li><a href="#"><span><i class="fa fa-fw fa-bullhorn"></i> 공지사항</span></a></li>
-					     <li><a href="#"><span><i class="fa fa-fw fa-cog"></i> Settings</span></a></li>
-					     <li><a href="#"><span><i class="fa fa-fw fa-phone"></i> Contact</span></a></li>
+					     </li>		     
+					     <li class="has-not-sub"><a href="${pageContext.request.contextPath}/notice/noticeall.do"><span><i class="fa fa-fw fa-bullhorn"></i> 공지사항</span></a></li>
+					     <li class="has-not-sub"><a href="#"><span><i class="fa fa-fw fa-cog"></i> Settings</span></a></li>
+					     <li class="has-not-sub"><a href="#"><span><i class="fa fa-fw fa-phone"></i> Contact</span></a></li>
+					     
+					     
 					</ul>
 			</div>
 		</div>

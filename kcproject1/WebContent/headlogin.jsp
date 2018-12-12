@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>branchlogin.jsp</title>
+<title>headlogin.jsp</title>
 <link rel="icon" type="image/png" href="images/icons/favicon.ico">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
@@ -24,21 +24,13 @@ function init(){
 	var $form = $("form");
 	$form.submit(function(){
 		$.ajax({
-			url:"branch/login.do"
+			url:"employees/login.do"
 			,method:'POST'
 			,data : $form.serialize()
 			,success:function(result){
 				var jsonObj = JSON.parse(result);
 				if(jsonObj.result=='ok'){
-					//location.href='${pageContext.request.contextPath}/branch_index.jsp';
-					//세개로 보여주기
-					$.ajax({
-						url:'branch/choice.do'
-						,success:function(result){
-							$(".wrap-login100").html(result);
-						}
-					});
-					
+					location.href='${pageContext.request.contextPath}/head_index.jsp';
 					
 				}else{
 					alert("로그인실패");
@@ -63,11 +55,11 @@ $(init);
 				</div>
 				<form class="login100-form validate-form">
 					<span class="login100-form-title">
-						Branch Login
+						Head Login
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="branch_code" placeholder="Code">
+						<input class="input100" type="text" name="employee_id" placeholder="ID">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -75,7 +67,7 @@ $(init);
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="branch_pwd" placeholder="Password">
+						<input class="input100" type="password" name="employee_pwd" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
