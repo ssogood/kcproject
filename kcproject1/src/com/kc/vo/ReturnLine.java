@@ -25,7 +25,7 @@ public class ReturnLine {
 	
 	
 	
-	@Override
+	/*@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -56,7 +56,42 @@ public class ReturnLine {
 		} else if (!rtl_prod_state_flag.equals(other.rtl_prod_state_flag))
 			return false;
 		return true;
+	}*/
+	
+	
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ingredient == null) ? 0 : ingredient.hashCode());
+		result = prime * result + ((rtl_prod_state_flag == null) ? 0 : rtl_prod_state_flag.hashCode());
+		return result;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ReturnLine other = (ReturnLine) obj;
+		if (ingredient == null) {
+			if (other.ingredient != null)
+				return false;
+		} else if (!ingredient.equals(other.ingredient))
+			return false;
+		if (rtl_prod_state_flag == null) {
+			if (other.rtl_prod_state_flag != null)
+				return false;
+		} else if (!rtl_prod_state_flag.equals(other.rtl_prod_state_flag))
+			return false;
+		return true;
+	}
+	
 	public int getReturn_no() {
 		return return_no;
 	}

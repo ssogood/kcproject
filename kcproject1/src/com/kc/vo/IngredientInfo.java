@@ -4,8 +4,8 @@ public class IngredientInfo {
 	private int ingred_no;
 	private String ingred_name;
 	private int bonsa_receiving_price;
-	private int commission;
-	private int bonsa_forwarding_price;
+	private float commission;
+	private int branch_forwarding_price;
 	private IngredientCate ingredCate; //ingred_cate_no 사용
 	private int quantity;
 	private String measurement;
@@ -14,13 +14,13 @@ public class IngredientInfo {
 		// TODO Auto-generated constructor stub
 	}
 	public IngredientInfo(int ingred_no, String ingred_name, int bonsa_receiving_price, int commission,
-			int bonsa_forwarding_price, IngredientCate ingredCate, int quantity, String measurement) {
+			int branch_forwarding_price, IngredientCate ingredCate, int quantity, String measurement) {
 		super();
 		this.ingred_no = ingred_no;
 		this.ingred_name = ingred_name;
 		this.bonsa_receiving_price = bonsa_receiving_price;
 		this.commission = commission;
-		this.bonsa_forwarding_price = bonsa_forwarding_price;
+		this.branch_forwarding_price = branch_forwarding_price;
 		this.ingredCate = ingredCate;
 		this.quantity = quantity;
 		this.measurement = measurement;
@@ -28,8 +28,8 @@ public class IngredientInfo {
 	@Override
 	public String toString() {
 		return "{\"ingred_no\":" + ingred_no + ", \"ingred_name\":\"" + ingred_name + "\", \"bonsa_receiving_price\":"
-				+ bonsa_receiving_price + ", \"commission\":" + commission + ", \"bonsa_forwarding_price\":"
-				+ bonsa_forwarding_price + ", \"ingredCate\":" + ingredCate + ", \"quantity\":" + quantity + ", \"measurement\":\""
+				+ bonsa_receiving_price + ", \"commission\":" + commission + ", \"branch_forwarding_price\":"
+				+ branch_forwarding_price + ", \"ingredCate\":" + ingredCate + ", \"quantity\":" + quantity + ", \"measurement\":\""
 				+ measurement + "\"}";
 	}
 	@Override
@@ -70,17 +70,17 @@ public class IngredientInfo {
 	public void setBonsa_receiving_price(int bonsa_receiving_price) {
 		this.bonsa_receiving_price = bonsa_receiving_price;
 	}
-	public int getCommission() {
+	public float getCommission() {
 		return commission;
 	}
-	public void setCommission(int commission) {
+	public void setCommission(float commission) {
 		this.commission = commission;
 	}
-	public int getBonsa_forwarding_price() {
-		return bonsa_forwarding_price;
+	public int getBranch_forwarding_price() {
+		return branch_forwarding_price;
 	}
-	public void setBonsa_forwarding_price(int bonsa_forwarding_price) {
-		this.bonsa_forwarding_price = bonsa_forwarding_price;
+	public void setBranch_forwarding_price(int branch_forwarding_price) {
+		this.branch_forwarding_price = branch_forwarding_price;
 	}
 	public IngredientCate getIngredCate() {
 		return ingredCate;
