@@ -42,4 +42,12 @@ public class IngredientService {
 	public List<IngredientInfo> findByNameingr(String ingred_name) {
 		return dao.selectByNamebaljuingr(ingred_name);
 	}
+	
+	//1210 본사에서쓸거(모든정보)
+	public IngredientInfo findByNoEq(int ingred_no) throws NotFoundException {
+		return dao.selectByNoEq(ingred_no);
+	}
+	
+	
+	
 }
