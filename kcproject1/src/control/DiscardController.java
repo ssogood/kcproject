@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,6 +52,50 @@ public class DiscardController {
 		//오류처리 아직 안함
 		mav.addObject("status", "ok");
 		String path = "/adddiscardresult";
+		mav.setViewName(path);
+		return mav;
+	}
+	
+	@RequestMapping("/discard/discardadd.do")
+	private String discardAdd() {
+		String path="/discardaddresult";
+		return path;
+	}
+	
+	@RequestMapping("/discard/discardremove.do")
+	private ModelAndView discardRemove(HttpSession session
+									   ,int discard_no) {
+		ModelAndView mav = new ModelAndView();
+		
+		service.removeDiscard(discard_no);
+		mav.addObject("status", "ok");
+		String path="/discardresult";
+		mav.setViewName(path);
+		return mav;
+	}
+	
+	@RequestMapping("/discard/discardmodify.do")
+	private String discardModify(int discard_no,ModelMap model) {
+		Discard discard = service.findByNo(discard_no);
+		model.addAttribute("discard", discard);
+		String path="/discardmodifyresult";
+		return path;
+	}
+	
+	@RequestMapping("/discard/modify.do")
+	private ModelAndView modify(HttpSession session
+								,Discard discard
+								,IngredientInfo ingredient
+								) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("들어오니?");
+		discard.setIngredient(ingredient);
+		System.out.println(discard);
+		service.modifyDiscard(discard);
+		
+		
+		mav.addObject("status","ok");
+		String path="/discardresult";
 		mav.setViewName(path);
 		return mav;
 	}

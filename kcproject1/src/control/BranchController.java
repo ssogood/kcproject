@@ -34,6 +34,8 @@ public class BranchController {
 		return path;
 	}
 	
+	
+	
 	@RequestMapping("/branch/info.do")
 	private ModelAndView allList(HttpSession session){
 		
@@ -50,4 +52,18 @@ public class BranchController {
 		
 		return mav;
 	}
+	@RequestMapping("/branch/logout.do")
+	private String logout(HttpSession session){
+		
+		session.invalidate(); //invalidate : 아예 session자체를 없앤다.
+		String path ="/logoutresult";
+		return path;
+	}
+	
+	@RequestMapping("/branch/choice.do")
+	private String choice() {
+		String path="/branchchoiceresult";
+		return path;
+	}
+	
 }
