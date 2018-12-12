@@ -100,6 +100,7 @@ $(init);
 		<section id="maincol">
 			<h1>Main Content Column</h1>
 			<h2>링크 누르면 jsp 표시 될 부분</h2>
+			${pageContext.request.contextPath}
 		 </section>
 	 
 		<div id="leftcol">
@@ -125,8 +126,10 @@ $(init);
 					     </li>
 					     <li class="has-sub"><a href="#"><span><i class="fa fa-fw fa-cart-arrow-down"></i> 발주</span></a>
 					        <ul>
-					           <li><a href="#"><span>발주내역</span></a></li>
-					           <li><a href="#"><span>발주요청</span></a></li>
+					        	<li><a id="branch_baljuhistory" href="${pageContext.request.contextPath}/balju/baljulist.do"><span>발주내역</span></a></li>
+					            <li><a href="${pageContext.request.contextPath}/balju/baljuingrlist.do"><span>발주요청</span></a></li>
+					        	<li><a href="${pageContext.request.contextPath}/S0001baljureq.jsp"><span>발주요청2</span></a></li>
+					        
 					        </ul>
 					     </li>
 					     <li class="has-sub"><a href="#"><span><i class="fa fa-fw fa-share-square-o"></i> 반품</span></a>
