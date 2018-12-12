@@ -1,0 +1,172 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BaljuMapper">
+
+
+	<!-- teacher1 -->
+	<!-- 
+	<resultMap id="baljuLineMap" type="BaljuLine" autoMapping="true"> 
+		<id property="balju_no" column="balju_no"/> </resultMap> -->
+	<!-- 
+	<resultMap id="BaljuMap" type="BranchInfo"> 
+		<id property="branch_code" column="branch_code"/>
+	</resultMap> -->
+
+	<!-- teacher2 -->
+	<!-- <resultMap id="BaljuInfoMap1" type="BaljuInfo" autoMapping="true">
+		<id property="balju_no" column="balju_no" />
+		<collection property="baljuLines" ofType="BaljuLine" autoMapping="true">
+			<id property="balju_no" column="balju_no" />
+			<id property="ingredient.ingred_no" column="INGRED_NO" />
+			<association property="ingredient" resultMap="IngredientMapper.ingredientinfoMap" />
+		</collection>
+	</resultMap>
+
+	<resultMap id="BranchInfoMap1" type="BranchInfo" autoMapping="true">
+		<id property="branch_code" column="branch_code" />
+	</resultMap>
+
+	<resultMap id="test" type="hashMap">
+		<id property="balju_key" column="balju_key" />
+		<association property="balju_branch" resultMap="BranchInfoMap1"></association>
+		<association property="balju_info" resultMap="BaljuInfoMap1"></association>
+	</resultMap> -->
+
+
+
+
+
+
+
+<resultMap id="tutorBaljuLineMap" type="BaljuLine"
+	autoMapping="true">
+	<id property="balju_no" column="balju_no" />
+	<id property="ingredient.ingred_no" column="ingred_no" />
+	<association property="ingredient"
+		resultMap="IngredientMapper.ingredientinfoMap" />
+</resultMap>
+
+<resultMap id="tutorBaljuInfoMap" type="BaljuInfo" autoMapping="true">
+	<id property="balju_no" column="balju_no" />
+	<collection property="baljuLines" resultMap="tutorBaljuLineMap" autoMapping="true" />
+</resultMap>
+
+<resultMap id="tutorMap" type="map" autoMapping="false">
+	<id property="branch_code" column="branch_code" />
+	<id property="balju_no" column="balju_no" />
+	<id property="ingred_no" column="ingred_no" />
+	<association property="baljuInfo" resultMap="tutorBaljuInfoMap" autoMapping="true" />
+</resultMap>
+
+<select id="tutorSelect4" parameterType="map" resultMap="tutorMap">
+	<foreach 
+		collection="list_branchInfo" 
+		item="item"
+		index="index" 
+		separator="UNION ALL">			
+		select '${item.branch_code}' as "branch_code"
+				,bi.balju_no as "balju_no"
+				,bl.ingred_no as "ingred_no"
+				,bi.balju_date, bi.balju_state_flag, bi.receiving_date, bl.balju_quantity
+				,ii.ingred_name, ii.ingred_cate_no, ii.branch_forwarding_price, ii.quantity
+				,ii.measurement, ic.ingred_cate_name
+		from ${item.branch_code}_balju_info bi
+		join ${item.branch_code}_balju_line bl on bi.balju_no=bl.balju_no
+		join ingredient_info ii on ii.ingred_no=bl.ingred_no
+		join ingredient_cate ic on ic.ingred_cate_no = ii.ingred_cate_no	
+	</foreach>
+	order by 1 asc, 2 desc, 3 asc
+</select>
+	
+	
+
+
+	
+<resultMap id="baljulinemap" type="BaljuLine" autoMapping="true">
+	<id property="balju_no" column="balju_no" />
+	<id property="ingredient.ingred_no" column="ingred_no" />		
+	<association property="ingredient" resultMap="IngredientMapper.ingredientinfoMap" />
+</resultMap>
+<resultMap id="baljuinfomap" type="BaljuInfo" autoMapping="true">			
+	<id property="balju_no" column="balju_no" />
+	<collection property="baljuLines" resultMap="baljulinemap" autoMapping="true"/>
+</resultMap>
+
+<select id="selectAll" parameterType="hashmap" resultMap="baljuinfomap">
+	select			
+		bi.balju_no as "balju_no"
+		,bl.ingred_no as "ingred_no"
+		,bi.balju_date, bi.balju_state_flag, bi.receiving_date, bl.balju_quantity
+		,ii.ingred_name, ii.ingred_cate_no, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+	from ${branch_code}_balju_info bi
+	join ${branch_code}_balju_line bl on bi.balju_no = bl.balju_no
+	join ingredient_info ii on ii.ingred_no =bl.ingred_no
+	join ingredient_cate ic on ic.ingred_cate_no = ii.ingred_cate_no
+	order by 1 desc, 2 asc
+</select>
+	
+<select id="selectByNo" parameterType="hashmap" resultMap="baljuinfomap">
+	select
+		bi.balju_no as "balju_no"
+		,bl.ingred_no as "ingred_no"
+		,bi.balju_date, bi.balju_state_flag, bi.receiving_date, bl.balju_quantity
+		,ii.ingred_name, ii.ingred_cate_no, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+	from ${branch_code}_balju_info bi
+	join ${branch_code}_balju_line bl on bi.balju_no = bl.balju_no
+	join ingredient_info ii on ii.ingred_no =bl.ingred_no
+	join ingredient_cate ic on ic.ingred_cate_no = ii.ingred_cate_no
+	where bi.balju_no = #{balju_no}
+	order by 1 desc, 2 asc
+</select>
+
+<select id="selectByNo2" parameterType="hashmap" resultMap="baljuinfomap">
+	select *
+	from ${branch_code}_balju_info bi
+	join ${branch_code}_balju_line bl on bi.balju_no = bl.balju_no
+	join ingredient_info ii on ii.ingred_no =bl.ingred_no
+	join ingredient_cate ic on ic.ingred_cate_no = ii.ingred_cate_no
+	where bi.balju_no = #{balju_no}
+	order by 1 desc, 2 asc
+</select>
+
+
+<select id="selectByState" parameterType="hashmap" resultMap="baljuinfomap">
+	select		
+		bi.balju_no as "balju_no"
+		,bl.ingred_no as "ingred_no"		
+		, bi.balju_date, bi.balju_state_flag, bi.receiving_date		
+		, bl.balju_quantity
+		,ii.ingred_name, ii.ingred_cate_no, ii.branch_forwarding_price, ii.quantity, ii.measurement
+		,ic.ingred_cate_name		
+	from ${branch_code}_balju_info bi
+	join ${branch_code}_balju_line bl on bi.balju_no = bl.balju_no
+	join ingredient_info ii on ii.ingred_no = bl.ingred_no
+	join ingredient_cate ic on ic.ingred_cate_no = ii.ingred_cate_no		
+	where balju_state_flag = #{balju_state_flag}		
+	order by 1 asc, 2 desc, 3 asc
+</select>
+
+<update id="updateFlag" parameterType="hashmap">
+	update ${branch_code}_balju_info 
+	set balju_state_flag = #{balju_state_flag} 
+	where balju_no = #{balju_no}
+</update>
+
+
+<insert id="insertBaljuInfo" parameterType="hashmap">
+	insert into ${branch_code}_balju_info (balju_no,balju_date,balju_state_flag,receiving_date)
+	values (${branch_code}_bal_no_seq.nextval,sysdate,'1',null)
+</insert>
+
+<insert id="insertBaljuLine" parameterType="hashmap">
+	insert into ${branch_code}_balju_line (balju_no,ingred_no,balju_quantity)
+	values (${branch_code}_bal_no_seq.currval,#{ingred_no},#{balju_quantity})
+</insert>
+
+
+
+
+
+</mapper>

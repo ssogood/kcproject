@@ -2,8 +2,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BranchInfoMapper">
+
 <resultMap type="BranchInfo" id="branchinfoMap" autoMapping="true">
 </resultMap>
+
+<!-- yh -->
+<select id="select_branch_code" resultMap="branchinfoMap">
+select branch_code from branch_info
+</select>
 
 <select id="selectAll" resultMap="branchinfoMap">
   SELECT * FROM branch_info
@@ -14,4 +20,13 @@ SELECT *
 FROM branch_info
 WHERE branch_code = UPPER(#{branch_code})
 </select>
+
+<!-- <select id="selectByBC" parameterType="string" resultType="BranchInfo"> -->
+<select id="selectByBC" resultType="BranchInfo">
+  select branch_name   
+  from branch_info
+  where branch_name = '압구정R'  
+</select>
+
+
 </mapper>

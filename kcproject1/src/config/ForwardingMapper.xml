@@ -1,0 +1,130 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ForwardingMapper">
+
+
+
+<resultMap id="forwardinglineMap" type="ForwardingLine" autoMapping="true">
+	<id property="forwarding_no" column="forwarding_no" />
+	<id property="ingredient.ingred_no" column="ingred_no" />		
+	<association property="ingredient" resultMap="IngredientMapper.ingredientinfoMap" />
+</resultMap>
+
+<resultMap id="forwardinginfoMap" type="ForwardingInfo" autoMapping="true">			
+	<id property="forwarding_no" column="forwarding_no" />
+	<association property="branch" resultMap="BranchInfoMapper.branchinfoMap"></association>
+	<collection property="forwardingLines" resultMap="forwardinglineMap" autoMapping="true"/>
+</resultMap>
+	
+
+<select id="selectAll" resultMap="forwardinginfoMap">
+select 
+	fi.forwarding_no, fi.branch_code, fi.balju_no, bi.branch_name, fl.ingred_no
+    ,fi.forwarding_date, fi.forwarding_state_flag
+    ,fl.forwarding_quantity
+    ,ii.ingred_name, ii.ingred_cate_no, ii.bonsa_receiving_price, ii.commission, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+    ,bi.branch_phone, bi.branch_address, bi.owner_name, bi.owner_phone, bi.closed_day
+from forwarding_info fi
+join forwarding_line fl on fi.forwarding_no=fl.forwarding_no
+join ingredient_info ii on fl.ingred_no=ii.ingred_no
+join ingredient_cate ic on ii.ingred_cate_no=ic.ingred_cate_no
+join branch_info bi on fi.branch_code=bi.branch_code
+order by 1 desc, 2 asc, 3 desc, 4 asc
+</select>
+
+
+
+<select id="selectBybaljuNo" parameterType="_int" resultMap="forwardinginfoMap">
+select 
+	fi.forwarding_no, fi.branch_code, fi.balju_no, bi.branch_name, fl.ingred_no
+    ,fi.forwarding_date, fi.forwarding_state_flag
+    ,fl.forwarding_quantity
+    ,ii.ingred_name, ii.ingred_cate_no, ii.bonsa_receiving_price, ii.commission, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+    ,bi.branch_phone, bi.branch_address, bi.owner_name, bi.owner_phone, bi.closed_day
+from forwarding_info fi
+join forwarding_line fl on fi.forwarding_no=fl.forwarding_no
+join ingredient_info ii on fl.ingred_no=ii.ingred_no
+join ingredient_cate ic on ii.ingred_cate_no=ic.ingred_cate_no
+join branch_info bi on fi.branch_code=bi.branch_code
+where fi.balju_no = #{balju_no}
+order by 1 desc, 2 asc, 3 desc, 4 asc
+</select>
+
+
+<select id="selectByforwardingNo" parameterType="_int" resultMap="forwardinginfoMap">
+select 
+	fi.forwarding_no, fi.branch_code, fi.balju_no, bi.branch_name, fl.ingred_no
+    ,fi.forwarding_date, fi.forwarding_state_flag
+    ,fl.forwarding_quantity
+    ,ii.ingred_name, ii.ingred_cate_no, ii.bonsa_receiving_price, ii.commission, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+    ,bi.branch_phone, bi.branch_address, bi.owner_name, bi.owner_phone, bi.closed_day
+from forwarding_info fi
+join forwarding_line fl on fi.forwarding_no=fl.forwarding_no
+join ingredient_info ii on fl.ingred_no=ii.ingred_no
+join ingredient_cate ic on ii.ingred_cate_no=ic.ingred_cate_no
+join branch_info bi on fi.branch_code=bi.branch_code
+where fi.forwarding_no = #{forwarding_no}
+order by 1 desc, 2 asc, 3 desc, 4 asc
+</select>
+
+
+<select id="selectByBranch" parameterType="string" resultMap="forwardinginfoMap">
+select 
+	fi.forwarding_no, fi.branch_code, fi.balju_no, bi.branch_name, fl.ingred_no
+    ,fi.forwarding_date, fi.forwarding_state_flag
+    ,fl.forwarding_quantity
+    ,ii.ingred_name, ii.ingred_cate_no, ii.bonsa_receiving_price, ii.commission, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+    ,bi.branch_phone, bi.branch_address, bi.owner_name, bi.owner_phone, bi.closed_day
+from forwarding_info fi
+join forwarding_line fl on fi.forwarding_no=fl.forwarding_no
+join ingredient_info ii on fl.ingred_no=ii.ingred_no
+join ingredient_cate ic on ii.ingred_cate_no=ic.ingred_cate_no
+join branch_info bi on fi.branch_code=bi.branch_code
+where fi.branch_code = #{branch_code}
+order by 1 desc, 2 asc, 3 desc, 4 asc
+</select>
+
+
+<select id="selectByState" parameterType="string" resultMap="forwardinginfoMap">
+select 
+	fi.forwarding_no, fi.branch_code, fi.balju_no, bi.branch_name, fl.ingred_no
+    ,fi.forwarding_date, fi.forwarding_state_flag
+    ,fl.forwarding_quantity
+    ,ii.ingred_name, ii.ingred_cate_no, ii.bonsa_receiving_price, ii.commission, ii.branch_forwarding_price, ii.quantity, ii.measurement, ic.ingred_cate_name
+    ,bi.branch_phone, bi.branch_address, bi.owner_name, bi.owner_phone, bi.closed_day
+from forwarding_info fi
+join forwarding_line fl on fi.forwarding_no=fl.forwarding_no
+join ingredient_info ii on fl.ingred_no=ii.ingred_no
+join ingredient_cate ic on ii.ingred_cate_no=ic.ingred_cate_no
+join branch_info bi on fi.branch_code=bi.branch_code
+where fi.forwarding_state_flag = #{forwarding_state_flag}
+order by 1 desc, 2 asc, 3 desc, 4 asc
+</select>
+
+
+<update id="updateForwarding" parameterType="hashmap">
+	UPDATE forwarding_info
+	SET forwarding_state_flag = #{forwarding_state_flag} 
+	WHERE forwarding_no = #{forwarding_no}
+</update>
+
+
+<insert id="insertForwardingInfo" parameterType="hashmap">
+insert into forwarding_info(forwarding_no, forwarding_date, branch_code, forwarding_state_flag, balju_no)
+values (forwarding_no_seq.nextval, sysdate, #{branch_code}, 5, #{balju_no})
+</insert>
+
+<insert id="insertForwardingLine" parameterType="BaljuLine">
+insert into forwarding_line(forwarding_no, ingred_no, forwarding_quantity)
+values(forwarding_no_seq.currval, #{ingredient.ingred_no}, #{balju_quantity})
+</insert>
+
+<select id="selectfno" parameterType="hashmap" resultType="_int">
+select max(forwarding_no)
+from forwarding_info
+where branch_code = #{branch_code} and balju_no = #{balju_no}
+</select>
+
+
+</mapper>
