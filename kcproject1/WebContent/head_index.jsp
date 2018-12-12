@@ -121,8 +121,9 @@ $(init);
 					        <ul>
 					           <li><a href="#"><span>매장정보</span></a></li>
 					           <li><a href="#"><span>메뉴정보</span></a></li>
-					           <li><a href="#"><span>원자재 입고</span></a></li>
-					           <li><a href="#"><span>지점 출고</span></a></li>
+					           <li><a href="#"><span>원자재 입고</span></a></li>					           					           
+					           <li><a id="headsidemenubaljulist" href="${contextPath}/forwarding/baljugrandlist.do"><span>출고하기(처리할지점발주리스트)</span></a></li>
+					           <li><a href="${contextPath}/forwarding/forwardinglist.do"><span>출고내역</span></a></li>
 					           <li><a href="${pageContext.request.contextPath}/return/returnlist.do"><span>반품요청처리</span></a></li>
 					           <li><a href="#"><span>재입고</span></a></li>
 					           <li><a href="#"><span>폐기</span></a></li>
