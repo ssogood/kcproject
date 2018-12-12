@@ -46,5 +46,33 @@ public class IngredientDAOOracle implements IngredientDAO {
 		}
 		return namelist;
 	}
+	
+	@Override
+	public List<IngredientInfo> selectByNo(int ingred_no){
+		List<IngredientInfo> namelist = new ArrayList<>();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		try {
+			namelist = sqlSession.selectList("IngredientMapper.selectByNo",ingred_no);
+			
+		}finally {
+			sqlSession.close();
+		}
+		return namelist;
+	}
+	
+	@Override
+	public List<IngredientInfo> selectByNoName(IngredientInfo ingredient){
+		List<IngredientInfo> nonamelist = new ArrayList<>();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		try {
+			nonamelist = sqlSession.selectList("IngredientMapper.selectByNoName",ingredient);
+			
+		}finally {
+			sqlSession.close();
+		}
+		return nonamelist;
+	}
 
 }

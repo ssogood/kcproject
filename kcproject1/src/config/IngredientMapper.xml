@@ -3,6 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="IngredientMapper">
 <resultMap type="IngredientInfo" id="ingredientinfoMap" autoMapping="true">
+	<id property="ingred_no" column="ingred_no"/>
 	<association property="ingredCate" resultMap="ingredientcateMap"></association>
 </resultMap>
 <resultMap type="IngredientCate" id="ingredientcateMap" autoMapping="true">
@@ -15,31 +16,29 @@ FROM ingredient_info info JOIN ingredient_cate cate ON info.ingred_cate_no = cat
 ORDER BY ingred_no
 </select>
 
-<select id="selectByName" parameterType="string" resultMap="ingredientinfoMap">
+<select id="selectByNo" parameterType="_int" resultMap="ingredientinfoMap">
 SELECT ingred_no, ingred_name, bonsa_receiving_price, commission, branch_forwarding_price, info.ingred_cate_no, ingred_cate_name, quantity, measurement
 FROM ingredient_info info JOIN ingredient_cate cate ON info.ingred_cate_no = cate.ingred_cate_no
-WHERE ingred_name LIKE #{ingred_name}
+WHERE ingred_no LIKE '%'||#{ingred_no}||'%'
 ORDER BY ingred_no
+
 </select>
 
 
+<select id="selectByName" parameterType="string" resultMap="ingredientinfoMap">
+SELECT ingred_no, ingred_name, bonsa_receiving_price, commission, branch_forwarding_price, info.ingred_cate_no, ingred_cate_name, quantity, measurement
+FROM ingredient_info info JOIN ingredient_cate cate ON info.ingred_cate_no = cate.ingred_cate_no
+WHERE ingred_name LIKE '%'||#{ingred_name}||'%'
+ORDER BY ingred_no
 
+</select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<select id="selectByNoName" parameterType="IngredientInfo" resultMap="ingredientinfoMap">
+SELECT ingred_no, ingred_name, bonsa_receiving_price, commission, branch_forwarding_price, info.ingred_cate_no, ingred_cate_name, quantity, measurement
+FROM ingredient_info info JOIN ingredient_cate cate ON info.ingred_cate_no = cate.ingred_cate_no
+WHERE ingred_name LIKE '%'||#{ingred_name}||'%' AND ingred_no LIKE '%'||#{ingred_no}||'%'
+ORDER BY ingred_no
+</select>
 <!-- balju -->
 
 <select id="selectAllbaljuingr" resultMap="ingredientinfoMap">
@@ -66,13 +65,6 @@ select info.ingred_no, info.ingred_name, info.bonsa_receiving_price, info.commis
 		,cate.ingred_cate_no, cate.ingred_cate_name
 from ingredient_info info join ingredient_cate cate on info.ingred_cate_no = cate.ingred_cate_no
 where ingred_name like '%'||#{ingred_name}||'%'
-order by 1
-</select>
-
-<select id="selectByNo" parameterType="_int" resultMap="ingredientinfoMap">
-select *
-from ingredient_info info join ingredient_cate cate on info.ingred_cate_no = cate.ingred_cate_no
-where ingred_no = #{ingred_no}
 order by 1
 </select>
 

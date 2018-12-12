@@ -17,12 +17,18 @@ public class IngredientService {
 	public List<IngredientInfo> findAll(){
 		return dao.selectAll();
 	}
+	
 	public List<IngredientInfo> findByName(String ingred_name){
 		return dao.selectByName(ingred_name);
 	}
 	
-	
-	
+	public List<IngredientInfo> findByNo(int ingred_no){
+		return dao.selectByNo(ingred_no);
+	}
+
+	public List<IngredientInfo> findByNoName(IngredientInfo ingredient){
+		return dao.selectByNoName(ingredient);
+	}
 	
 	//지점에서 쓸거(부분정보)
 	public List<IngredientInfo> findAllingr(){
@@ -36,10 +42,4 @@ public class IngredientService {
 	public List<IngredientInfo> findByNameingr(String ingred_name) {
 		return dao.selectByNamebaljuingr(ingred_name);
 	}
-	
-	//1210 본사에서쓸거(모든정보)
-	public IngredientInfo findByNo(int ingred_no) throws NotFoundException {
-		return dao.selectByNo(ingred_no);
-	}
-
 }
