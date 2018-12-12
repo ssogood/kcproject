@@ -44,6 +44,18 @@ public class DiscardDAOOracle implements DiscardDAO {
 		
 		return list;
 	}
+	
+	@Override
+	public Discard selectByNo(int discard_no) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		Discard discard = new Discard();
+		try {
+			discard = sqlSession.selectOne("DiscardMapper.selectByNo",discard_no);
+		}finally {
+			sqlSession.close();
+		}
+		return discard;
+	}
 
 	@Override
 	public void insertDc(Discard dc) {
@@ -56,5 +68,28 @@ public class DiscardDAOOracle implements DiscardDAO {
 		}
 	}
 
+	@Override
+	public void deleteDc(int discard_no) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try{
+			sqlSession.delete("DiscardMapper.deleteDc",discard_no);
+			sqlSession.commit();
+		}finally {
+			sqlSession.close();
+		}
+	}
+	@Override
+	public void updateDc(Discard dc) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try{
+			sqlSession.update("DiscardMapper.updateDc",dc);
+			sqlSession.commit();
+		}finally {
+			sqlSession.close();
+		}
+	}
+
+	
+	
 
 }

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kc.exception.DataAccessException;
+import com.kc.exception.NotFoundException;
 import com.kc.vo.ReturnInfo;
 import com.kc.vo.ReturnLine;
 
@@ -27,21 +28,36 @@ public class ReturnDAOOracle implements ReturnDAO {
 	private DataSource dataSource;
 	
 	@Override
-	public List<ReturnInfo> selectAll(String branch_code) {
+	public List<ReturnInfo> selectAll(String branch_code){
 		List<ReturnInfo> all = new ArrayList<>();
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
-		Map<String, String> map = new HashMap<>();
-		map.put("branch_code", branch_code);
-		all = sqlSession.selectList("StatsMapper.selectAll",map);
+			Map<String, Object> map = new HashMap<>();
+			map.put("branch_code", branch_code);
+			all = sqlSession.selectList("ReturnMapper.selectAll",map);
 		}finally {
 			sqlSession.close();
 		}
 		return all;
 	}
-
 	@Override
-	public void insertReturn(String branch_code,ReturnInfo info) {
+	public ReturnInfo selectRtnNo(String branch_code,int ireturn_no){
+		ReturnInfo info = new ReturnInfo();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+		Map<String, Object> map = new HashMap<>();
+		map.put("branch_code", branch_code);
+		String return_no =  String.valueOf(ireturn_no);
+		map.put("return_no", return_no);
+		info = sqlSession.selectOne("ReturnMapper.selectRtnNo",map);
+		}finally {
+			sqlSession.close();
+		}
+		return info;
+	}
+	
+	@Override
+	public void insertReturn(String branch_code,ReturnInfo info){
 		SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
 		try {
 			insertInfo(sqlSession,branch_code);
@@ -56,16 +72,19 @@ public class ReturnDAOOracle implements ReturnDAO {
 	}
 	
 	public void insertInfo(SqlSession sqlSession,String branch_code)throws SQLException {
-		
-		sqlSession.insert("ReturnMapper.insertInfo",branch_code);
+		Map<String, Object> map = new HashMap<>();
+		map.put("branch_code", branch_code);
+		sqlSession.insert("ReturnMapper.insertInfo",map);
 	}
 	
 	public void insertLine(SqlSession sqlSession,String branch_code,ReturnInfo info)throws SQLException {
 		List<ReturnLine> lines = info.getReturn_lines();
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(branch_code);
 		map.put("branch_code", branch_code);
 		for(ReturnLine line : lines) {
 			//return_quantity,ingred_no,rtl_prod_state_flag
+			
 			String return_quantity = String.valueOf(line.getReturn_quantity());
 			String ingred_no = String.valueOf(line.getIngredient().getIngred_no());
 			String rtl_prod_state_flag = line.getRtl_prod_state_flag();
@@ -78,14 +97,17 @@ public class ReturnDAOOracle implements ReturnDAO {
 	
 
 	@Override
-	public void updateRtnFlag(String branch_code,String newFlag, int return_no) {
+	public void updateRtnFlag(String branch_code,String newFlag, int return_no){
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 			try {
-			Map<String, String> map = new HashMap<>();
+			Map<String, Object> map = new HashMap<>();
 			map.put("branch_code",branch_code);
 			map.put("return_state_flag", newFlag);
+			
 			map.put("return_no", String.valueOf(return_no));
+			
 			sqlSession.update("ReturnMapper.updateRtnFlag",map);
+			
 			sqlSession.commit();
 			}finally {
 				sqlSession.close();
@@ -93,13 +115,13 @@ public class ReturnDAOOracle implements ReturnDAO {
 	}
 
 	@Override
-	public List<ReturnInfo> selectRtnFlag(String branch_code,String return_flag) {
+	public List<ReturnInfo> selectRtnFlag(String branch_code,String return_state_flag){
 		List<ReturnInfo> flagList = new ArrayList<>();
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("branch_code", branch_code);
-		map.put("return_flag", return_flag);
+		map.put("return_state_flag", return_state_flag);
 		flagList = sqlSession.selectList("ReturnMapper.selectRtnFlag",map);
 		}finally {
 			sqlSession.close();
