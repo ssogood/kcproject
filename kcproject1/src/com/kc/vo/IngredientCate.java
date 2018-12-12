@@ -1,5 +1,5 @@
 package com.kc.vo;
-   
+
 public class IngredientCate {
 	private int ingred_cate_no;
 	private String ingred_cate_name;
