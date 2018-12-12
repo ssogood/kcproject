@@ -14,30 +14,27 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kc.exception.NotFoundException;
 import com.kc.vo.BranchInfo;
 
-@Repository("branchinfoDAO")
-public class BranchInfoDAOOracle implements BranchInfoDAO{
+@Repository("branchDAO")
+public class BranchInfoDAOOracle implements BranchInfoDAO {
 
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 	@Autowired
 	private DataSource dataSource;
-
+	
 	@Override
 	public List<BranchInfo> selectAll() {
-		List<BranchInfo> all = new ArrayList<>();
 		SqlSession sqlSession = sqlSessionFactory.openSession();
+		List<BranchInfo> branchList = new ArrayList<>();
 		try {
-
-			all = sqlSession.selectList("BranchInfoMapper.selectAll");
-		}catch(Exception e) {
-			System.err.println(e.getMessage());
-		}
-		finally {
+			branchList = sqlSession.selectList("BranchInfoMapper.selectAll");
+		}finally {
 			sqlSession.close();
 		}
-		return all;
+		return branchList;
 	}
 
 	
@@ -70,26 +67,24 @@ public class BranchInfoDAOOracle implements BranchInfoDAO{
 		}
 	}
 	
-	
-	
-	
-	/*public static void main(String[] args) {
-		String resource = "config/mybatis-config.xml";
-		InputStream inputStream;
-		try {
-			inputStream = Resources.getResourceAsStream(resource);
-			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-			SqlSession ss = sqlSessionFactory.openSession();
-			
-			String branch_code = "S0001";
-			BranchInfo brc = new BranchInfo();
-			brc = ss.selectOne("BranchInfoMapper.selectByBC", branch_code);
-			System.out.println(brc);
+	@Override
+	public BranchInfo selectByCode(String branch_code) throws NotFoundException {
 		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			BranchInfo branch = sqlSession.selectOne("BranchInfoMapper.selectByCode",branch_code);
+			if(branch==null) {
+				throw new NotFoundException("해당 고객을 찾을 수 없습니다.");
+			}else {
+				return branch;
+			}
+		}catch(Exception e) {
+			throw new NotFoundException(e.getMessage());
+		}finally {
+			if(sqlSession !=null) {
+				sqlSession.close();
+			}
 		}
-	}*/
+	}
 
 }
