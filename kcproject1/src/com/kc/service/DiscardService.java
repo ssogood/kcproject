@@ -21,8 +21,20 @@ public class DiscardService {
 		return dao.selectByProdFlag(dc_prod_state_flag);
 	}
 	
+	public Discard findByNo(int discard_no) {
+		return dao.selectByNo(discard_no);
+	}
+	
 	public void addDiscard(Discard dc) {
 		dao.insertDc(dc);
 	}
+	
+	public void removeDiscard(int discard_no) {
+		dao.deleteDc(discard_no);
+	}
+	public void modifyDiscard(Discard dc) {
+		dao.updateDc(dc);
+	}
+	
 	
 }
