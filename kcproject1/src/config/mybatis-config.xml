@@ -13,6 +13,7 @@
     <typeAlias type="com.kc.vo.Discard" alias="Discard"/>
     <typeAlias type="com.kc.vo.IngredientInfo" alias="IngredientInfo"/>
     <typeAlias type="com.kc.vo.IngredientCate" alias="IngredientCate"/>
+    <typeAlias type="com.kc.vo.Notice" alias="Notice"/>
     <typeAlias type="com.kc.vo.Stats" alias="Stats"/>
     
   </typeAliases>
@@ -35,6 +36,7 @@
     <mapper resource="config/RestockingMapper.xml"/>
     <mapper resource="config/DiscardMapper.xml"/>
     <mapper resource="config/BranchInfoMapper.xml"/>
+    <mapper resource="config/NoticeMapper.xml"/>
     <mapper resource="config/StatsMapper.xml"/>
   </mappers>
 </configuration>

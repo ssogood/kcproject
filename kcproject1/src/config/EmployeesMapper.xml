@@ -8,4 +8,10 @@
 <select id="selectAll" resultMap="employeesMap">
   SELECT * FROM employees
 </select>
+
+<select id="selectById" parameterType="string" resultMap="employeesMap">
+SELECT * FROM employees
+WHERE employee_id=#{employee_id}
+</select>
+
 </mapper>

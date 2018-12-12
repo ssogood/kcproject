@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+<resultMap type="Notice" id="noticeMap" autoMapping="true">
+  <id property="text_no" column="text_no"/>
+  <association property="employee" resultMap="EmployeesMapper.employeesMap"></association>
+</resultMap>
+
+<select id="selectAll" resultMap="noticeMap">
+SELECT text_no,text_title,text_date,n.employee_id,employee_name,department_name,text_content,text_pwd 
+FROM notice n JOIN employees e ON n.employee_id = e.employee_id
+ORDER BY text_no desc 
+</select>
+<select id="selectPage" resultMap="noticeMap" parameterType="hashmap">
+SELECT rownum, a.*
+       FROM(SELECT *
+            FROM notice
+            ) a
+WHERE rownum BETWEEN #{start} AND #{end}
+ORDER BY text_no desc 
+</select>
+
+<select id="selectByNo" resultMap="noticeMap" parameterType="_int">
+SELECT *
+FROM notice
+WHERE text_no = #{text_no}
+</select>
+
+<select id="getTotalCount" resultType="_int">
+SELECT COUNT(*)
+FROM notice
+</select>
+
+<update id="update" parameterType="Notice">
+UPDATE notice SET text_title=#{text_title},text_content=#{text_content}
+,text_pwd=#{text_pwd} WHERE text_no=#{text_no}
+</update>
+
+<insert id="insert" parameterType="Notice">
+INSERT INTO notice(text_no,text_title,text_date,employee_id,text_content,text_pwd) 
+VALUES(TEXT_SEQ.NEXTVAL,#{text_title},sysdate,#{employee.employee_id},#{text_content},#{text_pwd})
+</insert>
+
+<delete id="delete" parameterType="_int">
+DELETE FROM notice WHERE text_no=#{text_no}
+</delete>
+
+</mapper>

@@ -28,10 +28,29 @@
 		WHERE dc_prod_state_flag=#{dc_prod_state_flag}
 		ORDER BY discard_no desc,dc.ingred_no
 </select>
+<select id="selectByNo" parameterType="_int" resultMap="discardMap">
+SELECT discard_no
+, dc.ingred_no, ingred_name, ing_info.ingred_cate_no, ingred_cate_name
+, discard_quantity, discard_date,dc_prod_state_flag
+FROM discard dc
+JOIN INGREDIENT_INFO ing_info ON dc.INGRED_NO = ing_info.INGRED_NO
+JOIN INGREDIENT_CATE cate ON ing_info.INGRED_CATE_NO = cate.INGRED_CATE_NO
+WHERE discard_no=#{discard_no}
+ORDER BY discard_no desc,dc.ingred_no
+</select>
 
 <insert id="insertDc" parameterType="Discard">
 	INSERT INTO discard(discard_no, ingred_no,discard_quantity,discard_date,dc_prod_state_flag) 
 	VALUES(discard_seq.NEXTVAL,#{ingredient.ingred_no},#{discard_quantity},SYSDATE,#{dc_prod_state_flag})
 </insert>
+
+<delete id="deleteDc" parameterType="_int">
+DELETE FROM DISCARD WHERE discard_no=#{discard_no}
+</delete>
+
+<update id="updateDc" parameterType="Discard">
+UPDATE DISCARD SET ingred_no=#{ingredient.ingred_no},discard_quantity = #{discard_quantity}, dc_prod_state_flag=#{dc_prod_state_flag}
+WHERE discard_no=#{discard_no}
+</update>
 
 </mapper>
