@@ -193,7 +193,6 @@ $(init);
 					     <li class="has-not-sub"><a href="#"><span><i class="fa fa-fw fa-cog"></i> Settings</span></a></li>
 					     <li class="has-not-sub"><a href="#"><span><i class="fa fa-fw fa-phone"></i> Contact</span></a></li>
 					     
-					     
 					</ul>
 			</div>
 		</div>
