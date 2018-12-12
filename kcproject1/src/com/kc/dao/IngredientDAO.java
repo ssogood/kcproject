@@ -12,8 +12,9 @@ public interface IngredientDAO {
 	List<IngredientInfo> selectByNoName(IngredientInfo ingredient);
 	
 	//balju
-		List<IngredientInfo> selectAllbaljuingr();
-		IngredientInfo selectByNobaljuingr(int ingred_no) throws NotFoundException ;
-		List<IngredientInfo> selectByNamebaljuingr(String ingred_name);
-		IngredientInfo selectByNo(int ingred_no);
+	List<IngredientInfo> selectAllbaljuingr();
+	IngredientInfo selectByNobaljuingr(int ingred_no) throws NotFoundException ;
+	List<IngredientInfo> selectByNamebaljuingr(String ingred_name);
+	IngredientInfo selectByNoEq(int ingred_no);
+	
 }

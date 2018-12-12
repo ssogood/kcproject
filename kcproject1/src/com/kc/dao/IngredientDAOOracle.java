@@ -74,5 +74,56 @@ public class IngredientDAOOracle implements IngredientDAO {
 		}
 		return nonamelist;
 	}
+	
+	//balju용
+	@Override
+	public List<IngredientInfo> selectAllbaljuingr() {
+		List<IngredientInfo> all = new ArrayList<>();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try{
+			all = sqlSession.selectList("IngredientMapper.selectAllbaljuingr");
+		}finally {
+			sqlSession.close();
+		}
+		return all;
+	}
+	@Override
+	public IngredientInfo selectByNobaljuingr(int ingred_no) {
+		IngredientInfo ingr = new IngredientInfo();
+		SqlSession ss = sqlSessionFactory.openSession();
+		try {
+			ingr = ss.selectOne("IngredientMapper.selectByNobaljuingr",ingred_no);
+			return ingr;
+		}finally {
+			ss.close();
+		}		
+	}
+	@Override
+	public List<IngredientInfo> selectByNamebaljuingr(String ingred_name) {
+		List<IngredientInfo> list = new ArrayList<>();
+		SqlSession ss = sqlSessionFactory.openSession();
+		try {
+			list = ss.selectList("IngredientMapper.selectByNamebaljuingr",ingred_name);
+			return list;
+		}finally {
+			ss.close();
+		}
+	}
+	
+	//1210 본사용, 모든정보
+	@Override
+	public IngredientInfo selectByNoEq(int ingred_no){
+		IngredientInfo ingr = new IngredientInfo();
+		SqlSession ss = sqlSessionFactory.openSession();
+		try {
+			ingr = ss.selectOne("IngredientMapper.selectByNoEq",ingred_no);
+			return ingr;
+		}finally {
+			ss.close();
+		}
+	}
+	
+	
+	
 
 }
