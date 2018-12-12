@@ -15,6 +15,12 @@ select branch_code from branch_info
   SELECT * FROM branch_info
 </select>
 
+<select id="selectByCode" parameterType="string" resultMap="branchinfoMap">
+SELECT *
+FROM branch_info
+WHERE branch_code = UPPER(#{branch_code})
+</select>
+
 <!-- <select id="selectByBC" parameterType="string" resultType="BranchInfo"> -->
 <select id="selectByBC" resultType="BranchInfo">
   select branch_name   
