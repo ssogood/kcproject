@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>본사용 메인 페이지</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
-integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
-crossorigin="anonymous">	<!-- layout css -->
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+	crossorigin="anonymous">	<!-- layout css -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"><!-- 메뉴앞 icons -->
 <!-- <link rel="stylesheet" href="css/main.min.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -18,6 +20,7 @@ crossorigin="anonymous">	<!-- layout css -->
 <script src="https://js.braintreegateway.com/js/braintree-2.21.0.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
 <script src="/js/bundle.js"></script> -->
+
 <link rel="stylesheet" href="css/main_layout.css">
 <link rel="stylesheet" href="css/left_menu.css">
 
@@ -55,6 +58,7 @@ function init(){
 			  
 			  console.log(" 세번째 if : "+$(this));
 		    return true;
+		    
 		  } else {			
 			  console.log(" else : "+$(this));
 		    return false;	
@@ -100,6 +104,8 @@ $(init);
 		<section id="maincol">
 			<h1>Main Content Column</h1>
 			<h2>링크 누르면 jsp 표시 될 부분</h2>
+			<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+			<c:out value="${contextPath}"/>
 		 </section>
 	 
 		<div id="leftcol">
@@ -121,8 +127,9 @@ $(init);
 					        <ul>
 					           <li><a href="#"><span>매장정보</span></a></li>
 					           <li><a href="#"><span>메뉴정보</span></a></li>
-					           <li><a href="#"><span>원자재 입고</span></a></li>
-					           <li><a href="#"><span>지점 출고</span></a></li>
+					           <li><a href="#"><span>원자재 입고</span></a></li>					           					           
+					           <li><a id="headsidemenubaljulist" href="${contextPath}/forwarding/baljugrandlist.do"><span>출고하기(처리할지점발주리스트)</span></a></li>
+					           <li><a href="${contextPath}/forwarding/forwardinglist.do"><span>출고내역</span></a></li>
 					           <li><a href="#"><span>반품요청처리</span></a></li>
 					           <li><a href="#"><span>재입고</span></a></li>
 					           <li><a href="#"><span>폐기</span></a></li>
@@ -140,9 +147,12 @@ $(init);
 	     </div>
 	</div><!-- <div id="wrapper" class="clearfix"> -->
 	
-	<footer id="footer">
-		<h2>Footer</h2>
-		<p></p>
+	<footer id="footer">		
+		<p>예시: 개인정보처리방침 영상정보처리기기 운영관리 방침 홈페이지 이용약관 위치정보 이용약관 스타벅스 카드 이용약관 윤리경영 핫라인
+찾아오시는 길 신규입점제의 사이트 맵
+사업자등록번호 201-81-21515 (주)스타벅스커피 코리아 대표이사 이석구 TEL : 02) 3015-1100 개인정보 책임자 : 강기원
+ⓒ 2015 Starbucks Coffee Company. All Rights Reserved.
+</p>
 	</footer>
 
 </div><!-- div id= pagewidth  -->
